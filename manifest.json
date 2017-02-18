@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+
+  "name": "Simple Annotate",
+  "description": "Copy and paste, without chaning tabs!!!!",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "note.png",
+    "default_popup": "drop_down.html"
+  },
+  "permissions": [
+    "activeTab",
+    "https://ajax.googleapis.com/"
+  ],
+  "background":
+    {
+        "scripts": ["thirdParty/jquery-3.1.1.min.js", "sendText.js"]
+    }
+}
