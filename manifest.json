@@ -16,8 +16,9 @@
     "contextMenus",
     "storage"
   ],
+  "icons": {"16" : "note.png"},
   "background":
     {
-        "scripts": ["thirdParty/jquery-3.1.1.min.js", "sendText.js"]
+        "scripts": ["thirdParty/jquery-3.1.1.min.js", "thirdParty/bootstrap.min.js", "sendText.js"]
     }
 }
