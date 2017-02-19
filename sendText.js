@@ -26,10 +26,9 @@ function updateDocName() {
     }
     doc.recentDocs.push(newDocName);
 
-
     document.getElementById("curr_val").innerHTML = newDocName;
     for (var i = 1; i < doc.recentDocs.length; i++) {
-      var elem = document.getElementById("curr_val" + doc.recentDocs.lengh - i);
+      var elem = document.getElementById("curr_val" + (doc.recentDocs.length - i));
       elem.innerHTML = doc.recentDocs[i - 1];
       elem.style = "";
     }
@@ -65,18 +64,16 @@ chrome.runtime.onInstalled.addListener(function() {
 });
 
 document.getElementById("mybutton").addEventListener("click", updateDocName);
-for (var i = 0; i < 4; i++) {
-  var str = i;
-  if (i == 0) { str = ''; }
-  document.getElementById("curr_val" + str).addEventListener("select", 
+// for (var i = 0; i < 5; i++) {
+//   var str = i;
+//   if (i == 0) { str = ''; }
+//   console.log("curr_val" + str);
+  document.getElementById("zzz").addEventListener("change", 
     function(event) {
-      console.log(event.target)
-      console.log('before', document.getElementById('doc_name').value)
-      document.getElementById('doc_name').innerHTML = event.target.innerHTML
-      console.log('after', document.getElementById('doc_name').value)
+      document.getElementById('doc_name').value = document.getElementById("zzz").value;
       updateDocName();
     });
-}
+// }
 var name_field = document.getElementById('doc_name');
 chrome.storage.sync.get("currDocName", function(doc){
   if (!doc.currDocName) {
@@ -86,8 +83,8 @@ chrome.storage.sync.get("currDocName", function(doc){
   document.getElementById("curr_val").innerHTML = doc.currDocName
 });
 chrome.storage.sync.get("recentDocs", function(doc){
-  for (var i = doc.recentDocs.length - 1; i > 0; i--) {
-    var elem = document.getElementById("curr_val" + i);
+  for (var i = 1; i < doc.recentDocs.length; i++) {
+    var elem = document.getElementById("curr_val" + (doc.recentDocs.length - i));
     elem.innerHTML = doc.recentDocs[i - 1];
     elem.style = "";
   }
