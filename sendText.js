@@ -25,6 +25,15 @@ function updateDocName() {
       doc.recentDocs.shift();
     }
     doc.recentDocs.push(newDocName);
+
+
+    document.getElementById("curr_val").innerHTML = newDocName;
+    for (var i = 1; i < doc.recentDocs.length; i++) {
+      var elem = document.getElementById("curr_val" + doc.recentDocs.lengh - i);
+      elem.innerHTML = doc.recentDocs[i - 1];
+      elem.style = "";
+    }
+
     chrome.storage.sync.set({"recentDocs" : doc.recentDocs});
   });
 }
@@ -56,19 +65,33 @@ chrome.runtime.onInstalled.addListener(function() {
 });
 
 document.getElementById("mybutton").addEventListener("click", updateDocName);
+for (var i = 0; i < 4; i++) {
+  var str = i;
+  if (i == 0) { str = ''; }
+  document.getElementById("curr_val" + str).addEventListener("select", 
+    function(event) {
+      console.log(event.target)
+      console.log('before', document.getElementById('doc_name').value)
+      document.getElementById('doc_name').innerHTML = event.target.innerHTML
+      console.log('after', document.getElementById('doc_name').value)
+      updateDocName();
+    });
+}
 var name_field = document.getElementById('doc_name');
 chrome.storage.sync.get("currDocName", function(doc){
   if (!doc.currDocName) {
     doc.currDocName = 'New Document'
   }
   name_field.value = doc.currDocName
+  document.getElementById("curr_val").innerHTML = doc.currDocName
 });
-// chrome.storage.sync.get("recentDocs", function(doc){
-//   var elem = document.getElementById("curr_val");
-//   for (var i = doc.recentDocs.length; i > 1; i--) {
-//     elem.value = doc.recentDocs[i - 1];
-//   }
-// });
+chrome.storage.sync.get("recentDocs", function(doc){
+  for (var i = doc.recentDocs.length - 1; i > 0; i--) {
+    var elem = document.getElementById("curr_val" + i);
+    elem.innerHTML = doc.recentDocs[i - 1];
+    elem.style = "";
+  }
+});
 
 
                 /////////////////////\\\\\\\\\\\\\\\\\\\
