@@ -13,10 +13,14 @@
 		</div>
 	</form> -->
 	<div style="position:relative;width:200px;height:25px;border:0;padding:0;margin:0;">
-		<select style="position:absolute;top:0px;left:0px;width:200px; height:25px;line-height:20px;margin:0;padding:0;" onchange="document.getElementById('doc_name').value=this.options[this.selectedIndex].text; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+		<select style="position:absolute;top:0px;left:0px;width:200px; height:25px;line-height:20px;margin:0;padding:0;">
 		   <option id="curr_val"></option>
+		   <option id="curr_val1" style="display:none;"></option>
+		   <option id="curr_val2" style="display:none;"></option>
+		   <option id="curr_val3" style="display:none;"></option>
+		   <option id="curr_val4" style="display:none;"></option>
 		</select>
-		<input name="doc_name" placeholder="add/select a value" id="doc_name" style="position:absolute;top:0px;left:0px;width:183px;width:180px\9;#width:180px;height:23px; height:21px\9;#height:18px;border:1px solid #556;" onfocus="this.select()" type="text">
+		<input name="doc_name" placeholder="add/select a value" id="doc_name" style="position:absolute;top:0px;left:0px;width:183px;width:180px\9;#width:180px;height:23px; height:21px\9;#height:18px;border:1px solid #556;" type="text">
 		<input name="idValue" id="idValue" type="hidden">
 	</div>
 	<br />
