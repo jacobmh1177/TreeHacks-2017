@@ -38,13 +38,17 @@ function updateDocName() {
 }
 
 function addTextToDoc(info, tab) {
-  console.log("here");
   var inputText = info.selectionText
   chrome.storage.sync.get("currDocName", function(doc){
   getCurrentTabUrl( function(tabUrl) {
     post_addr = 'https://script.google.com/macros/s/AKfycbyufvSw3_I_TydtUPNUS5Hq8J5RtqZMtzj4p52QQJnLw9Fw7vI/exec'
+    console.log("sending post: ");
     $.get(post_addr, {docName : doc.currDocName, text : inputText, url : tabUrl},
-      function(data) {}).fail(function () {});
+      function(data, more) {
+        if (data.includes(inputText)) { return; }
+        var w = window.open();
+        w.document.write(data);
+      }).fail(function (data) {alert("fail data: ", data)});
     });
   });
 }
@@ -60,20 +64,15 @@ chrome.runtime.onInstalled.addListener(function() {
       contexts: ["selection"],
       onclick: addTextToDoc,
     });
-  })
+  });
 });
 
 document.getElementById("mybutton").addEventListener("click", updateDocName);
-// for (var i = 0; i < 5; i++) {
-//   var str = i;
-//   if (i == 0) { str = ''; }
-//   console.log("curr_val" + str);
-  document.getElementById("zzz").addEventListener("change", 
-    function(event) {
-      document.getElementById('doc_name').value = document.getElementById("zzz").value;
-      updateDocName();
-    });
-// }
+document.getElementById("old_vals_selector").addEventListener("change", 
+  function(event) {
+    document.getElementById('doc_name').value = document.getElementById("old_vals_selector").value;
+    updateDocName();
+});
 var name_field = document.getElementById('doc_name');
 chrome.storage.sync.get("currDocName", function(doc){
   if (!doc.currDocName) {
@@ -89,8 +88,6 @@ chrome.storage.sync.get("recentDocs", function(doc){
     elem.style = "";
   }
 });
-
-
                 /////////////////////\\\\\\\\\\\\\\\\\\\
                //______________________________________\\
               //________________________________________\\
