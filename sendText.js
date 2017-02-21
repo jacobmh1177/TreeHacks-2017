@@ -45,19 +45,37 @@ function addTextToDoc(info, tab) {
     console.log("sending post: ");
     $.get(post_addr, {docName : doc.currDocName, text : inputText, url : tabUrl},
       function(data, more) {
-        if (data.includes(inputText)) { return; }
+        if (data.includes("**teamscribe**treehacks")) { return; }
         var w = window.open();
         w.document.write(data);
-      }).fail(function (data) {alert("fail data: ", data)});
+      }).fail(function (data) {alert("Something went wrong! :( Please try again!")});
     });
   });
 }
 
 //_______________________________ MAIN _______________________________\\
-
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.get("currDocName", function(doc){
-    if (doc.currDocName == null) doc.currDocName = "New Document";
+    console.log("here")
+    if (doc.currDocName == null) {
+      doc.currDocName = "New Document";
+      chrome.storage.sync.set({"currDocName": "New Document"});
+    }
+    chrome.contextMenus.create({
+      id: "annotationMenu",
+      title: "Add text to " + doc.currDocName,
+      contexts: ["selection"],
+      onclick: addTextToDoc,
+    });
+  });
+});
+chrome.runtime.onStartup.addListener(function() {
+  chrome.storage.sync.get("currDocName", function(doc){
+    console.log("here")
+    if (doc.currDocName == null) {
+      doc.currDocName = "New Document";
+      chrome.storage.sync.set({"currDocName": "New Document"});
+    }
     chrome.contextMenus.create({
       id: "annotationMenu",
       title: "Add text to " + doc.currDocName,
@@ -77,6 +95,7 @@ var name_field = document.getElementById('doc_name');
 chrome.storage.sync.get("currDocName", function(doc){
   if (!doc.currDocName) {
     doc.currDocName = 'New Document'
+    chrome.storage.sync.set({"currDocName": "New Document"});
   }
   name_field.value = doc.currDocName
   document.getElementById("curr_val").innerHTML = doc.currDocName
